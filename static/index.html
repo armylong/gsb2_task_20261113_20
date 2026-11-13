@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>本地压缩包安全检查</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h1>压缩包安全检查台</h1>
+    <span class="sub">本地运行 · 只扫描不落地 · 看清风险后再释放 · 支持 zip / tar / tar.gz</span>
+  </header>
+
+  <div class="layout">
+    <!-- 左侧：上传、限制、演示包、历史任务 -->
+    <aside>
+      <div class="card">
+        <h2>1. 设置检查限制</h2>
+        <div class="limits-grid">
+          <div>
+            <label>条目数上限</label>
+            <input type="number" id="lim-entries" value="10000" min="1">
+          </div>
+          <div>
+            <label>单文件上限（MiB）</label>
+            <input type="number" id="lim-file" value="100" min="1">
+          </div>
+          <div>
+            <label>总释放上限（MiB）</label>
+            <input type="number" id="lim-total" value="500" min="1">
+          </div>
+          <div>
+            <label>压缩比例上限（:1）</label>
+            <input type="number" id="lim-ratio" value="100" min="1" step="0.1">
+          </div>
+        </div>
+        <p class="muted small">限制在服务端再次钳制；实际读取内容时按真实字节复核，不只相信包内声明。</p>
+      </div>
+
+      <div class="card">
+        <h2>2. 上传压缩包</h2>
+        <input type="file" id="file-input"
+               accept=".zip,.tar,.gz,.tgz">
+        <button id="upload-btn">上传并检查</button>
+        <div id="upload-msg" class="small muted"></div>
+      </div>
+
+      <div class="card">
+        <h2>本地演示包（点击直接加载）</h2>
+        <div class="demo-list" id="demo-list"></div>
+      </div>
+
+      <div class="card">
+        <h2>历史检查记录</h2>
+        <div class="job-list" id="job-list">
+          <div class="empty small">暂无记录</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- 右侧：检查详情 -->
+    <main>
+      <div class="card" id="detail-card">
+        <div class="empty">尚未选择任务。上传压缩包或点击左侧演示包开始检查。</div>
+      </div>
+    </main>
+  </div>
+
+  <!-- 条目详情弹窗 -->
+  <div class="modal-mask" id="modal-mask">
+    <div class="modal">
+      <span class="close-x" id="modal-close">✕ 关闭</span>
+      <h3 id="modal-title">条目详情</h3>
+      <div id="modal-body"></div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
